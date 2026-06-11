@@ -3,7 +3,7 @@ import background from './assets/background.jpg'
 function App() {
   return (
     <main
-      className="relative flex min-h-full items-center justify-center bg-slate-900 bg-cover bg-center px-6 text-center text-slate-100"
+      className="relative flex min-h-full flex-col items-center justify-start bg-slate-900 bg-cover bg-center px-6 pt-16 text-center text-slate-100 sm:pt-24"
       style={{ backgroundImage: `url(${background})` }}
     >
       {/* Dark overlay to keep the text readable over the photo */}
