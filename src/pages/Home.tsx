@@ -45,70 +45,82 @@ function Home() {
         aria-hidden
         className="fixed inset-0 -z-10 bg-gradient-to-r from-night-950/90 via-night-950/55 to-night-950/25"
       />
+      {/* Extra bottom darkening on mobile, where the intro text sits */}
+      <div
+        aria-hidden
+        className="fixed inset-x-0 bottom-0 -z-10 h-2/3 bg-gradient-to-t from-night-950/85 via-night-950/35 to-transparent sm:hidden"
+      />
 
       <PageTransition>
-        {/* Hero */}
-        <section className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center px-6 pt-24 pb-16">
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-5 text-sm tracking-[0.3em] text-mist-300 uppercase"
-          >
-            Developer · Consciousness Explorer · Traveler
-          </motion.p>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display text-5xl leading-[1.05] font-light drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-7xl"
-          >
-            Building systems by day,
-            <br />
-            <span className="text-aurora">dissolving the self by dawn.</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8 max-w-xl text-lg leading-relaxed text-mist-100 drop-shadow-[0_1px_12px_rgba(0,0,0,0.7)]"
-          >
-            I&rsquo;m Adit — a software engineer drawn to the oldest open
-            question there is: what is this awareness, and who is looking? This
-            is where I think out loud about consciousness, meditation, and the
-            quiet that underlies a noisy mind.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 flex flex-wrap gap-4"
-          >
-            <Link
-              to="/writings"
-              className="rounded-full bg-gradient-to-r from-dawn-400 to-aura-400 px-7 py-3 text-sm font-medium text-night-950 transition-transform hover:scale-[1.03]"
+        {/* Hero — on mobile, top/bottom split keeps the middle (subject's face)
+            clear of text; on desktop it's a single centered block. */}
+        <section className="mx-auto flex min-h-screen max-w-5xl flex-col justify-between px-6 pt-24 pb-16 sm:justify-center">
+          {/* Top group: eyebrow + headline */}
+          <div>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-5 text-sm tracking-[0.3em] text-mist-300 uppercase"
             >
-              Read the writings
-            </Link>
-            <Link
-              to="/practices"
-              className="rounded-full border border-white/25 bg-white/5 px-7 py-3 text-sm text-mist-100 backdrop-blur transition-colors hover:border-aura-400/60"
-            >
-              Try a breath
-            </Link>
-          </motion.div>
+              Developer · Consciousness Explorer · Traveler
+            </motion.p>
 
-          {/* Scroll cue */}
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-            className="mt-20 text-xs tracking-widest text-mist-300 uppercase"
-          >
-            ↓ Explore
-          </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display text-5xl leading-[1.05] font-light drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-7xl"
+            >
+              Building systems by day,
+              <br />
+              <span className="text-aurora">dissolving the self by dawn.</span>
+            </motion.h1>
+          </div>
+
+          {/* Bottom group: intro + actions */}
+          <div className="mt-auto sm:mt-8">
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-xl text-lg leading-relaxed text-mist-100 drop-shadow-[0_1px_12px_rgba(0,0,0,0.85)]"
+            >
+              I&rsquo;m Adit — a software engineer drawn to the oldest open
+              question there is: what is this awareness, and who is looking? This
+              is where I think out loud about consciousness, meditation, and the
+              quiet that underlies a noisy mind.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-8 flex flex-wrap gap-4"
+            >
+              <Link
+                to="/writings"
+                className="rounded-full bg-gradient-to-r from-dawn-400 to-aura-400 px-7 py-3 text-sm font-medium text-night-950 transition-transform hover:scale-[1.03]"
+              >
+                Read the writings
+              </Link>
+              <Link
+                to="/practices"
+                className="rounded-full border border-white/25 bg-white/5 px-7 py-3 text-sm text-mist-100 backdrop-blur transition-colors hover:border-aura-400/60"
+              >
+                Try a breath
+              </Link>
+            </motion.div>
+
+            {/* Scroll cue */}
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+              className="mt-10 text-xs tracking-widest text-mist-300 uppercase sm:mt-20"
+            >
+              ↓ Explore
+            </motion.div>
+          </div>
         </section>
 
         {/* Gateways */}
