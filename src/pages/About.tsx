@@ -9,13 +9,43 @@ import scubaDiving from '../assets/travel/scuba-diving.jpg'
 import lavaCave from '../assets/travel/lava-cave.jpg'
 import forestMeditation from '../assets/travel/forest-meditation.jpg'
 
-const travels = [
-  { src: mountainHike, caption: 'Cascade ridgelines, first snow' },
-  { src: scubaDiving, caption: 'Weightless on the reef' },
-  { src: lakeRainier, caption: 'Beneath Mount Rainier' },
-  { src: iceCave, caption: 'Inside a glacier' },
-  { src: forestMeditation, caption: 'Stillness in the pines' },
-  { src: lavaCave, caption: 'Swallowed by a lava tube' },
+const aspects = [
+  {
+    src: mountainHike,
+    label: 'The Mountaineer',
+    title: 'Drawn upward, toward the quiet at altitude.',
+    body: 'There’s a clarity that only arrives after the climb — where the air thins, the chatter falls away, and the view does the thinking for you. The summits keep teaching me the same lesson the cushion does: effort, then surrender.',
+  },
+  {
+    src: scubaDiving,
+    label: 'The Diver',
+    title: 'At home in the weightless deep.',
+    body: 'Underwater, breath becomes everything — slow it down and the whole world slows with you. Diving is the closest the body comes to meditation: suspended, silent, and acutely awake to a realm that runs on entirely different rules.',
+  },
+  {
+    src: lakeRainier,
+    label: 'The Free Spirit',
+    title: 'Arms open to whatever the day offers.',
+    body: 'Some moments don’t need a meaning. Floating beneath a mountain on a still afternoon, I’m reminded that joy is mostly a matter of paying attention — of letting the present be enough, exactly as it is.',
+  },
+  {
+    src: iceCave,
+    label: 'The Adventurer',
+    title: 'Walking into places that humble me.',
+    body: 'Inside a glacier, time feels geological and you feel briefly, gratefully small. I chase these encounters with awe on purpose — they’re the fastest way I know to dissolve the sense of being the center of anything.',
+  },
+  {
+    src: forestMeditation,
+    label: 'The Meditator',
+    title: 'Coming back, again and again, to stillness.',
+    body: 'Beneath all the motion and the miles, this is the center of gravity. A log, a forest, a few unhurried breaths — the same practice I carry everywhere, and the lens through which I’ve come to see the rest of my life.',
+  },
+  {
+    src: lavaCave,
+    label: 'The Explorer',
+    title: 'Endlessly curious about what’s around the next bend.',
+    body: 'Caves, code, consciousness — they scratch the same itch. I’m happiest at the edge of the known, headlamp on, following a question into the dark just to see where it goes.',
+  },
 ]
 
 const timeline = [
@@ -123,23 +153,57 @@ function About() {
           </p>
         </Reveal>
 
-        <div className="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
-          {travels.map((t, i) => (
-            <Reveal key={t.caption} delay={(i % 3) * 0.08}>
-              <figure className="group relative overflow-hidden rounded-2xl border border-white/8">
-                <img
-                  src={t.src}
-                  alt={t.caption}
-                  loading="lazy"
-                  className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-night-950/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                <figcaption className="absolute bottom-0 left-0 right-0 translate-y-2 p-4 font-display text-sm text-mist-100 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                  {t.caption}
-                </figcaption>
-              </figure>
-            </Reveal>
-          ))}
+        <div className="mt-16 space-y-20 sm:space-y-28">
+          {aspects.map((a, i) => {
+            const imageRight = i % 2 === 1
+            return (
+              <div
+                key={a.label}
+                className="grid items-center gap-8 sm:grid-cols-2 sm:gap-12"
+              >
+                {/* Image */}
+                <motion.figure
+                  initial={{ opacity: 0, x: imageRight ? 40 : -40 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  className={`group relative overflow-hidden rounded-3xl border border-white/8 ${
+                    imageRight ? 'sm:order-2' : ''
+                  }`}
+                >
+                  {/* Aura glow */}
+                  <div className="absolute -inset-1 -z-10 bg-gradient-to-br from-dawn-400/20 via-aura-400/20 to-sky-soft/10 blur-xl" />
+                  <img
+                    src={a.src}
+                    alt={a.label}
+                    loading="lazy"
+                    className="h-full max-h-[28rem] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  />
+                </motion.figure>
+
+                {/* Text */}
+                <motion.div
+                  initial={{ opacity: 0, x: imageRight ? -40 : 40 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.1,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className={imageRight ? 'sm:order-1' : ''}
+                >
+                  <p className="text-xs tracking-[0.3em] text-aura-300 uppercase">
+                    {a.label}
+                  </p>
+                  <h3 className="mt-3 font-display text-2xl leading-snug font-light text-mist-100 sm:text-3xl">
+                    {a.title}
+                  </h3>
+                  <p className="mt-4 leading-relaxed text-mist-300">{a.body}</p>
+                </motion.div>
+              </div>
+            )
+          })}
         </div>
       </section>
     </PageTransition>
