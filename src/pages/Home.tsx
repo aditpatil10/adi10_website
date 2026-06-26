@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import PageTransition from '../components/PageTransition'
 import Reveal from '../components/Reveal'
+import heroBg from '../assets/home-hero-times-square.jpg'
 
 const gateways = [
   {
@@ -25,7 +26,23 @@ function Home() {
   return (
     <PageTransition>
       {/* Hero */}
-      <section className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center px-6 pt-24 pb-16">
+      <section className="relative min-h-screen overflow-hidden">
+        {/* Full-bleed background photo with a slow ken-burns drift */}
+        <motion.div
+          initial={{ scale: 1.12, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBg})`, backgroundPosition: 'center 35%' }}
+        />
+
+        {/* Fades: darken for text, melt into the page top and bottom */}
+        <div className="absolute inset-0 bg-gradient-to-r from-night-950 via-night-950/70 to-night-950/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/20 to-night-950/60" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-night-950 to-transparent" />
+
+        {/* Content */}
+        <div className="relative mx-auto flex min-h-screen max-w-5xl flex-col justify-center px-6 pt-24 pb-16">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -86,6 +103,7 @@ function Home() {
         >
           ↓ Explore
         </motion.div>
+        </div>
       </section>
 
       {/* Gateways */}
