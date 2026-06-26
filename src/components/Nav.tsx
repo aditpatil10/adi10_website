@@ -25,8 +25,8 @@ function Nav() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
-        scrolled
-          ? 'border-b border-white/5 bg-night-950/70 backdrop-blur-xl'
+        scrolled || open
+          ? 'border-b border-white/5 bg-night-950/90 backdrop-blur-xl'
           : 'bg-transparent'
       }`}
     >
