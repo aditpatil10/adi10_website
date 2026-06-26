@@ -1,5 +1,7 @@
+import { motion } from 'framer-motion'
 import PageTransition from '../components/PageTransition'
 import Reveal from '../components/Reveal'
+import portrait from '../assets/background.jpg'
 
 const timeline = [
   {
@@ -30,9 +32,27 @@ function About() {
           </h1>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <div className="mt-10 space-y-6 text-lg leading-relaxed text-mist-300">
-            <p>
+        {/* Portrait + opening */}
+        <div className="mt-12 flex flex-col items-center gap-10 sm:flex-row sm:items-start">
+          <Reveal delay={0.1} className="shrink-0">
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+              className="relative"
+            >
+              {/* Aura glow behind the portrait */}
+              <div className="absolute -inset-4 rounded-full bg-gradient-to-br from-dawn-400/30 via-aura-400/30 to-sky-soft/20 blur-2xl" />
+              <img
+                src={portrait}
+                alt="Adit Patil"
+                className="relative h-44 w-44 rounded-full border border-white/10 object-cover shadow-[0_0_50px_-12px_var(--color-aura-500)] sm:h-52 sm:w-52"
+              />
+            </motion.div>
+          </Reveal>
+
+          <Reveal delay={0.2}>
+            <div className="space-y-6 text-lg leading-relaxed text-mist-300">
+              <p>
               I&rsquo;m Adit Patil. By trade I build software — systems, logic,
               the satisfying click of a problem solved. But the thread running
               through my life isn&rsquo;t really code. It&rsquo;s attention:
@@ -50,8 +70,9 @@ function About() {
               I don&rsquo;t have answers. I have a practice, a curiosity, and a
               willingness to keep looking.
             </p>
-          </div>
-        </Reveal>
+            </div>
+          </Reveal>
+        </div>
 
         {/* Mini timeline */}
         <div className="mt-16 space-y-px">
