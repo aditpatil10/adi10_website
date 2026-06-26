@@ -70,7 +70,7 @@ function Home() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display text-5xl leading-[1.05] font-light drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-7xl"
+              className="font-display text-4xl leading-[1.05] font-light drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-7xl"
             >
               Building systems by day,
               <br />
@@ -84,12 +84,15 @@ function Home() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-xl text-lg leading-relaxed text-mist-100 drop-shadow-[0_1px_12px_rgba(0,0,0,0.85)]"
+              className="max-w-xl text-base leading-relaxed text-mist-100 drop-shadow-[0_1px_12px_rgba(0,0,0,0.85)] sm:text-lg"
             >
               I&rsquo;m Adit — a software engineer drawn to the oldest open
-              question there is: what is this awareness, and who is looking? This
-              is where I think out loud about consciousness, meditation, and the
-              quiet that underlies a noisy mind.
+              question there is: what is this awareness, and who is looking?
+              <span className="hidden sm:inline">
+                {' '}
+                This is where I think out loud about consciousness, meditation,
+                and the quiet that underlies a noisy mind.
+              </span>
             </motion.p>
 
             <motion.div
@@ -116,7 +119,7 @@ function Home() {
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-              className="mt-10 text-xs tracking-widest text-mist-300 uppercase sm:mt-20"
+              className="mt-10 hidden text-xs tracking-widest text-mist-300 uppercase sm:mt-20 sm:block"
             >
               ↓ Explore
             </motion.div>
