@@ -2,6 +2,21 @@ import { motion } from 'framer-motion'
 import PageTransition from '../components/PageTransition'
 import Reveal from '../components/Reveal'
 import portrait from '../assets/background.jpg'
+import lakeRainier from '../assets/travel/lake-rainier.jpg'
+import mountainHike from '../assets/travel/mountain-hike.jpg'
+import iceCave from '../assets/travel/ice-cave.jpg'
+import scubaDiving from '../assets/travel/scuba-diving.jpg'
+import lavaCave from '../assets/travel/lava-cave.jpg'
+import forestMeditation from '../assets/travel/forest-meditation.jpg'
+
+const travels = [
+  { src: mountainHike, caption: 'Cascade ridgelines, first snow' },
+  { src: scubaDiving, caption: 'Weightless on the reef' },
+  { src: lakeRainier, caption: 'Beneath Mount Rainier' },
+  { src: iceCave, caption: 'Inside a glacier' },
+  { src: forestMeditation, caption: 'Stillness in the pines' },
+  { src: lavaCave, caption: 'Swallowed by a lava tube' },
+]
 
 const timeline = [
   {
@@ -84,6 +99,45 @@ function About() {
                 </div>
                 <p className="text-mist-300">{t.text}</p>
               </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Traveler */}
+      <section className="mx-auto max-w-5xl px-6 pb-32">
+        <Reveal>
+          <p className="text-sm tracking-[0.3em] text-mist-500 uppercase">
+            The wanderer
+          </p>
+          <h2 className="mt-4 font-display text-3xl leading-tight font-light sm:text-4xl">
+            The same curiosity, turned{' '}
+            <span className="text-aurora">outward.</span>
+          </h2>
+          <p className="mt-5 max-w-xl text-mist-300">
+            When I&rsquo;m not sitting still, I&rsquo;m usually somewhere far
+            from home — under the sea, inside a glacier, or on a ridge at first
+            light. Travel is just meditation with the eyes open: the same act of
+            paying full attention to a world that&rsquo;s always larger than I
+            expected.
+          </p>
+        </Reveal>
+
+        <div className="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
+          {travels.map((t, i) => (
+            <Reveal key={t.caption} delay={(i % 3) * 0.08}>
+              <figure className="group relative overflow-hidden rounded-2xl border border-white/8">
+                <img
+                  src={t.src}
+                  alt={t.caption}
+                  loading="lazy"
+                  className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-night-950/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <figcaption className="absolute bottom-0 left-0 right-0 translate-y-2 p-4 font-display text-sm text-mist-100 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                  {t.caption}
+                </figcaption>
+              </figure>
             </Reveal>
           ))}
         </div>
