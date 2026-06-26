@@ -1,24 +1,40 @@
-import background from './assets/background.jpg'
+import { AnimatePresence } from 'framer-motion'
+import { Route, Routes, useLocation } from 'react-router-dom'
+import Background from './components/Background'
+import Nav from './components/Nav'
+import Footer from './components/Footer'
+import ScrollToTop from './components/ScrollToTop'
+import Home from './pages/Home'
+import About from './pages/About'
+import Writings from './pages/Writings'
+import WritingPost from './pages/WritingPost'
+import Practices from './pages/Practices'
+import NotFound from './pages/NotFound'
 
 function App() {
-  return (
-    <main
-      className="relative flex min-h-full flex-col items-center justify-start bg-slate-900 bg-cover bg-center px-6 pt-16 text-center text-slate-100 sm:pt-24"
-      style={{ backgroundImage: `url(${background})` }}
-    >
-      {/* Dark overlay to keep the text readable over the photo */}
-      <div className="absolute inset-0 bg-slate-950/60" />
+  const location = useLocation()
 
-      <div className="relative z-10 max-w-2xl">
-        <h1 className="text-5xl font-bold tracking-tight drop-shadow-lg sm:text-7xl">
-          Coming Soon
-          <span className="ml-1 inline-block size-3 animate-pulse rounded-full bg-sky-400 align-middle" />
-        </h1>
-        <p className="mt-4 text-lg leading-relaxed text-slate-200 drop-shadow sm:text-xl">
-          We&rsquo;re building something great. Check back shortly.
-        </p>
-      </div>
-    </main>
+  return (
+    <div className="relative flex min-h-screen flex-col overflow-x-clip">
+      <Background />
+      <ScrollToTop />
+      <Nav />
+
+      <main className="relative z-10 flex-1">
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/writings" element={<Writings />} />
+            <Route path="/writings/:slug" element={<WritingPost />} />
+            <Route path="/practices" element={<Practices />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AnimatePresence>
+      </main>
+
+      <Footer />
+    </div>
   )
 }
 

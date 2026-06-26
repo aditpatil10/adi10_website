@@ -1,11 +1,154 @@
 @import 'tailwindcss';
 
+/* ----------------------------------------------------------------------------
+   Design tokens — a calm, cosmic palette: deep night warmed by dawn light.
+   ------------------------------------------------------------------------- */
+@theme {
+  --color-night-950: #07060d;
+  --color-night-900: #0c0b16;
+  --color-night-800: #14122440;
+  --color-night-700: #1d1b30;
+
+  --color-dawn-300: #f6d9a8;
+  --color-dawn-400: #ecc07e;
+  --color-dawn-500: #e0a85f;
+
+  --color-aura-300: #c4b5fd;
+  --color-aura-400: #a78bfa;
+  --color-aura-500: #8b5cf6;
+
+  --color-sky-soft: #7dd3fc;
+
+  --color-mist-100: #ebe9f1;
+  --color-mist-300: #c7c3d6;
+  --color-mist-500: #8e89a3;
+
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* Custom animations exposed as Tailwind utilities (animate-*) */
+  --animate-aurora: aurora 22s ease-in-out infinite alternate;
+  --animate-aurora-slow: aurora 34s ease-in-out infinite alternate;
+  --animate-drift: drift 9s ease-in-out infinite;
+  --animate-twinkle: twinkle 4s ease-in-out infinite;
+  --animate-shimmer: shimmer 8s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+}
+
+@keyframes aurora {
+  0% {
+    transform: translate3d(-8%, -4%, 0) rotate(0deg) scale(1.1);
+  }
+  50% {
+    transform: translate3d(6%, 8%, 0) rotate(8deg) scale(1.25);
+  }
+  100% {
+    transform: translate3d(-4%, 4%, 0) rotate(-6deg) scale(1.15);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-14px) translateX(8px);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body,
 #root {
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
   margin: 0;
+  background-color: var(--color-night-950);
+  color: var(--color-mist-100);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-aura-500);
+  color: white;
+}
+
+/* Animated gradient text used for hero headings */
+.text-aurora {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-dawn-300),
+    var(--color-aura-300),
+    var(--color-sky-soft),
+    var(--color-dawn-300)
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: var(--animate-shimmer);
+}
+
+/* Thin custom scrollbar to keep the calm aesthetic */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-night-950);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-night-700);
+  border-radius: 9999px;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
