@@ -55,7 +55,7 @@ function Nav() {
                   `group relative tracking-wide transition-colors ${
                     isActive
                       ? 'text-mist-100'
-                      : 'text-mist-500 hover:text-mist-100'
+                      : 'text-mist-300 hover:text-mist-100'
                   }`
                 }
               >
@@ -107,7 +107,7 @@ function Nav() {
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
                 `block py-3 text-sm tracking-wide ${
-                  isActive ? 'text-mist-100' : 'text-mist-500'
+                  isActive ? 'text-mist-100' : 'text-mist-300'
                 }`
               }
             >

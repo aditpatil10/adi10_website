@@ -28,13 +28,6 @@ const socials: Social[] = [
     ),
   },
   {
-    label: 'Facebook',
-    href: 'https://www.facebook.com/aditpatil10',
-    icon: (
-      <path d="M14 9h2.5V6H14a3 3 0 0 0-3 3v2H9v3h2v6h3v-6h2.2l.4-3H14V9.5A.5.5 0 0 1 14.5 9H14z" />
-    ),
-  },
-  {
     label: 'GitHub',
     href: 'https://github.com/aditpatil10',
     icon: (
