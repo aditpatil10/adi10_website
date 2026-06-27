@@ -17,7 +17,7 @@ const resources = [
   },
   {
     title: 'Self-inquiry',
-    body: 'Ask quietly, “Who is aware right now?” Don’t answer with words — turn attention back toward its own source and wait.',
+    body: 'Ask quietly, “Who is aware right now?” Don’t answer with words; turn attention back toward its own source and wait.',
   },
 ]
 
@@ -35,7 +35,7 @@ function Practices() {
           </h1>
           <p className="mt-6 max-w-xl text-mist-300">
             The mind settles fastest through the body. Choose a rhythm below and
-            let the orb pace your breathing — in as it grows, out as it shrinks.
+            let the orb pace your breathing: in as it grows, out as it shrinks.
           </p>
         </Reveal>
       </section>

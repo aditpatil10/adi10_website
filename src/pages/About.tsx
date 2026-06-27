@@ -14,44 +14,44 @@ const aspects = [
     src: mountainHike,
     label: 'The Mountaineer',
     title: 'Drawn upward, toward the quiet at altitude.',
-    body: 'There’s a clarity that only arrives after the climb — where the air thins, the chatter falls away, and the view does the thinking for you. The summits keep teaching me the same lesson the cushion does: effort, then surrender.',
+    body: 'There’s a clarity that only arrives after the climb, where the air thins, the chatter falls away, and the view does the thinking for you. The summits keep teaching me the same lesson the cushion does: effort, then surrender.',
   },
   {
     src: scubaDiving,
     label: 'The Diver',
     title: 'At home in the weightless deep.',
-    body: 'Underwater, breath becomes everything — slow it down and the whole world slows with you. Diving is the closest the body comes to meditation: suspended, silent, and acutely awake to a realm that runs on entirely different rules.',
+    body: 'Underwater, breath becomes everything; slow it down and the whole world slows with you. Diving is the closest the body comes to meditation: suspended, silent, and acutely awake to a realm that runs on entirely different rules.',
   },
   {
     src: lakeRainier,
     label: 'The Free Spirit',
     title: 'Arms open to whatever the day offers.',
-    body: 'Some moments don’t need a meaning. Floating beneath a mountain on a still afternoon, I’m reminded that joy is mostly a matter of paying attention — of letting the present be enough, exactly as it is.',
+    body: 'Some moments don’t need a meaning. Floating beneath a mountain on a still afternoon, I’m reminded that joy is mostly a matter of paying attention, of letting the present be enough, exactly as it is.',
   },
   {
     src: iceCave,
     label: 'The Adventurer',
     title: 'Walking into places that humble me.',
-    body: 'Inside a glacier, time feels geological and you feel briefly, gratefully small. I chase these encounters with awe on purpose — they’re the fastest way I know to dissolve the sense of being the center of anything.',
+    body: 'Inside a glacier, time feels geological and you feel briefly, gratefully small. I chase these encounters with awe on purpose; they’re the fastest way I know to dissolve the sense of being the center of anything.',
   },
   {
     src: forestMeditation,
     label: 'The Meditator',
     title: 'Coming back, again and again, to stillness.',
-    body: 'Beneath all the motion and the miles, this is the center of gravity. A log, a forest, a few unhurried breaths — the same practice I carry everywhere, and the lens through which I’ve come to see the rest of my life.',
+    body: 'Beneath all the motion and the miles, this is the center of gravity. A log, a forest, a few unhurried breaths: the same practice I carry everywhere, and the lens through which I’ve come to see the rest of my life.',
   },
   {
     src: lavaCave,
     label: 'The Explorer',
     title: 'Endlessly curious about what’s around the next bend.',
-    body: 'Caves, code, consciousness — they scratch the same itch. I’m happiest at the edge of the known, headlamp on, following a question into the dark just to see where it goes.',
+    body: 'Caves, code, consciousness: they scratch the same itch. I’m happiest at the edge of the known, headlamp on, following a question into the dark just to see where it goes.',
   },
 ]
 
 const timeline = [
   {
     year: 'Now',
-    text: 'Developing software by day, sitting in meditation by dawn — and writing about where the two meet.',
+    text: 'Developing software by day, sitting in meditation by dawn, and writing about where the two meet.',
   },
   {
     year: 'The turn',
@@ -98,7 +98,7 @@ function About() {
           <Reveal delay={0.2}>
             <div className="space-y-6 text-lg leading-relaxed text-mist-300">
               <p>
-              I&rsquo;m Adit Patil. By trade I build software — systems, logic,
+              I&rsquo;m Adit Patil. By trade I build software: systems, logic,
               the satisfying click of a problem solved. But the thread running
               through my life isn&rsquo;t really code. It&rsquo;s attention:
               where it goes, what it&rsquo;s made of, and what happens when it
@@ -106,7 +106,7 @@ function About() {
             </p>
             <p>
               Meditation started as a way to quiet a busy head. It became
-              something stranger and more interesting — a direct, first-person
+              something stranger and more interesting: a direct, first-person
               laboratory for the questions philosophers argue about in the
               third person. This site is my notebook for that exploration:
               honest, unfinished, and written as much for me as for you.
@@ -146,7 +146,7 @@ function About() {
           </h2>
           <p className="mt-5 max-w-xl text-mist-300">
             When I&rsquo;m not sitting still, I&rsquo;m usually somewhere far
-            from home — under the sea, inside a glacier, or on a ridge at first
+            from home: under the sea, inside a glacier, or on a ridge at first
             light. Travel is just meditation with the eyes open: the same act of
             paying full attention to a world that&rsquo;s always larger than I
             expected.

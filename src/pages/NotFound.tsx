@@ -10,7 +10,7 @@ function NotFound() {
           This path leads into the silence.
         </h1>
         <p className="mt-3 text-mist-500">
-          The page you&rsquo;re looking for isn&rsquo;t here — or perhaps was
+          The page you&rsquo;re looking for isn&rsquo;t here, or perhaps was
           never meant to be found.
         </p>
         <Link

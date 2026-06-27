@@ -6,7 +6,7 @@ art of lingering in that gap.
 
 When you first sit, the mind feels like a crowded room. Thoughts arrive
 uninvited, overlap, argue. The instinct is to silence them. But silence is not
-the point — *spaciousness* is.
+the point; *spaciousness* is.
 
 > You are not trying to stop the waves. You are learning to become the ocean.
 
@@ -21,5 +21,5 @@ has been watching all along.
 3. At the top of the inhale, notice the tiny pause before the exhale.
 4. Rest there, even for half a second.
 
-That pause is the doorway. Keep returning to it. Nothing dramatic happens — and
+That pause is the doorway. Keep returning to it. Nothing dramatic happens, and
 that is exactly the point.
