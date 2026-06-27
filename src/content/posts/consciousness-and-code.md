@@ -15,7 +15,7 @@ pattern, mistaken for a thing.
 
 ## Holding both
 
-- **As an engineer**, I model the world to change it.
+- **As a developer**, I model the world to change it.
 - **As a meditator**, I stop modeling to see it.
 
 Neither is more true. The trick, I am finding, is to move fluidly between them —

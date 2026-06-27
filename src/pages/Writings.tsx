@@ -17,7 +17,7 @@ function Writings() {
           </h1>
           <p className="mt-6 max-w-xl text-mist-300">
             Slow, unhurried essays on meditation, consciousness, and the
-            overlap between a contemplative life and an engineered one.
+            overlap between a contemplative life and a developer&rsquo;s one.
           </p>
         </Reveal>
 

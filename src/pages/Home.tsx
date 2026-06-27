@@ -18,7 +18,7 @@ const gateways = [
   {
     to: '/about',
     title: 'About',
-    body: 'The person behind the page: an engineer learning to watch his own mind.',
+    body: 'The person behind the page: a developer learning to watch his own mind.',
   },
 ]
 
@@ -84,9 +84,9 @@ function Home() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-xl text-base leading-relaxed text-mist-100 drop-shadow-[0_1px_12px_rgba(0,0,0,0.85)] sm:text-lg"
+              className="max-w-xl font-lede text-lg leading-relaxed font-light text-mist-100 drop-shadow-[0_1px_12px_rgba(0,0,0,0.85)] sm:text-xl"
             >
-              I&rsquo;m Adit — a software engineer drawn to the oldest open
+              I&rsquo;m Adit — a software developer drawn to the oldest open
               question there is: what is this awareness, and who is looking?
               <span className="hidden sm:inline">
                 {' '}

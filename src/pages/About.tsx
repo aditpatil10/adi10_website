@@ -51,7 +51,7 @@ const aspects = [
 const timeline = [
   {
     year: 'Now',
-    text: 'Engineering by day, sitting in meditation by dawn — and writing about where the two meet.',
+    text: 'Developing software by day, sitting in meditation by dawn — and writing about where the two meet.',
   },
   {
     year: 'The turn',
@@ -72,7 +72,7 @@ function About() {
             About
           </p>
           <h1 className="mt-4 font-display text-4xl leading-tight font-light sm:text-5xl">
-            An engineer learning to{' '}
+            A developer learning to{' '}
             <span className="text-aurora">watch his own mind.</span>
           </h1>
         </Reveal>
