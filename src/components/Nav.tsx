@@ -33,13 +33,13 @@ function Nav() {
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Link
           to="/"
-          className="group font-display text-lg tracking-tight text-mist-100"
+          className="group font-nav text-2xl font-semibold tracking-[0.16em] uppercase text-mist-100"
           onClick={() => setOpen(false)}
         >
           <span className="bg-gradient-to-r from-dawn-300 to-aura-300 bg-clip-text text-transparent">
             Adit
           </span>
-          <span className="text-mist-500 transition-colors group-hover:text-mist-100">
+          <span className="text-mist-300 transition-colors group-hover:text-mist-100">
             {' '}
             Patil
           </span>
