@@ -46,13 +46,13 @@ function Nav() {
         </Link>
 
         {/* Desktop links */}
-        <ul className="hidden items-center gap-8 text-sm sm:flex">
+        <ul className="hidden items-center gap-9 sm:flex">
           {links.map((l) => (
             <li key={l.to}>
               <NavLink
                 to={l.to}
                 className={({ isActive }) =>
-                  `group relative tracking-wide transition-colors ${
+                  `group relative font-nav text-lg font-medium tracking-[0.18em] uppercase transition-colors ${
                     isActive
                       ? 'text-mist-100'
                       : 'text-mist-300 hover:text-mist-100'
@@ -106,7 +106,7 @@ function Nav() {
               to={l.to}
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
-                `block py-3 text-sm tracking-wide ${
+                `block py-3 font-nav text-xl font-medium tracking-[0.18em] uppercase ${
                   isActive ? 'text-mist-100' : 'text-mist-300'
                 }`
               }
