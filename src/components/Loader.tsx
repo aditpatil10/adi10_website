@@ -1,34 +1,135 @@
+import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 
+// Binary digital rain — just 1s and 0s.
+const CHARS = '01'.split('')
+const randChar = () => CHARS[(Math.random() * CHARS.length) | 0]
+
 /**
- * Full-screen intro loader: a single orb that "breathes" (inhale on expand,
- * exhale on contract) while the app and its hero assets load, then dissolves.
- * Mounted/unmounted by App via AnimatePresence so the exit fade plays.
+ * Full-screen intro loader: Matrix-style digital rain. Columns of glyphs fall
+ * at varied speeds with a bright white-green leading character and a fading
+ * green trail; dissolves (via App's AnimatePresence) once the app is ready.
  */
 function Loader() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    let w = 0
+    let h = 0
+    let fontSize = 16
+    let columns = 0
+    let drops: number[] = []
+    let speeds: number[] = []
+    let raf = 0
+
+    const resize = () => {
+      w = window.innerWidth
+      h = window.innerHeight
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      canvas.style.width = `${w}px`
+      canvas.style.height = `${h}px`
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      fontSize = Math.max(14, Math.round(Math.min(w, h) / 42))
+      columns = Math.ceil(w / fontSize)
+      // Start each column at a random height above the screen so the rain
+      // cascades in rather than starting in a flat line.
+      drops = Array.from({ length: columns }, () => -Math.random() * 40)
+      speeds = Array.from({ length: columns }, () => 0.35 + Math.random() * 0.5)
+      ctx.fillStyle = '#050806'
+      ctx.fillRect(0, 0, w, h)
+    }
+
+    const draw = () => {
+      // Translucent wash → fading green trails behind each leading glyph.
+      ctx.fillStyle = 'rgba(5,8,6,0.09)'
+      ctx.fillRect(0, 0, w, h)
+
+      ctx.font = `${fontSize}px ui-monospace, "Courier New", monospace`
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+
+      for (let i = 0; i < columns; i++) {
+        const x = i * fontSize + fontSize / 2
+        const row = Math.floor(drops[i])
+
+        if (row >= 0) {
+          // Repaint the cell just above the head in body-green so the trail is
+          // green (it then fades via the wash), and paint a bright head.
+          ctx.fillStyle = 'rgba(56,222,136,0.85)'
+          ctx.fillText(randChar(), x, (row - 1) * fontSize + fontSize / 2)
+          ctx.fillStyle = 'rgba(225,255,235,0.95)'
+          ctx.shadowBlur = 8
+          ctx.shadowColor = 'rgba(56,222,136,0.9)'
+          ctx.fillText(randChar(), x, row * fontSize + fontSize / 2)
+          ctx.shadowBlur = 0
+        }
+
+        drops[i] += speeds[i]
+        if (drops[i] * fontSize > h + Math.random() * 240) {
+          drops[i] = -Math.random() * 20
+          speeds[i] = 0.35 + Math.random() * 0.5
+        }
+      }
+    }
+
+    const loop = () => {
+      draw()
+      raf = requestAnimationFrame(loop)
+    }
+
+    resize()
+    window.addEventListener('resize', resize)
+
+    if (reduced) {
+      // A few static columns rather than motion.
+      ctx.fillStyle = 'rgba(56,222,136,0.85)'
+      ctx.font = `${fontSize}px ui-monospace, monospace`
+      ctx.textAlign = 'center'
+      for (let i = 0; i < columns; i += 2) {
+        for (let r = 0; r < 6; r++) {
+          ctx.fillText(
+            randChar(),
+            i * fontSize + fontSize / 2,
+            (Math.random() * h) | 0,
+          )
+        }
+      }
+    } else {
+      raf = requestAnimationFrame(loop)
+    }
+
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
   return (
     <motion.div
       key="loader"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-night-950"
+      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed inset-0 z-[100] bg-[#050806]"
     >
-      {/* Breathing orb */}
-      <motion.div
-        animate={{ scale: [1, 1.35, 1], opacity: [0.85, 1, 0.85] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        className="relative h-24 w-24"
-      >
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-dawn-400 via-aura-400 to-sky-soft blur-xl" />
-        <div className="absolute inset-3 rounded-full bg-gradient-to-br from-dawn-300/80 to-aura-400/70" />
-      </motion.div>
-
-      {/* Wordmark */}
+      <canvas ref={canvasRef} className="absolute inset-0" />
       <motion.p
-        animate={{ opacity: [0.4, 1, 0.4] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        className="mt-12 font-nav text-lg font-medium tracking-[0.4em] text-mist-300 uppercase"
+        animate={{ opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute inset-x-0 bottom-[15%] text-center font-mono text-sm font-medium tracking-[0.5em] uppercase"
+        style={{
+          color: '#dafce4',
+          textShadow: '0 0 14px rgba(56,222,136,0.85)',
+        }}
       >
         Adit Patil
       </motion.p>
