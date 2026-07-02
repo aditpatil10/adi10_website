@@ -272,7 +272,7 @@ function BreathingTimer() {
       </div>
 
       {/* Selected pattern description */}
-      <p className="-mt-3 max-w-md text-center text-xs leading-relaxed text-mist-500">
+      <p className="-mt-2 max-w-md text-center font-lede text-base leading-relaxed text-mist-300 italic">
         {pattern.desc}
       </p>
 
