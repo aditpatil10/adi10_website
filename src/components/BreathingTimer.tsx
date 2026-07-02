@@ -187,8 +187,8 @@ function BreathingTimer() {
   const label = running
     ? phaseLabel(phaseCount, phase)
     : done
-      ? 'Complete'
-      : 'Press start'
+      ? 'Begin again'
+      : 'Begin'
 
   /* Phase transitions + per-phase haptic cue. */
   useEffect(() => {
@@ -218,6 +218,7 @@ function BreathingTimer() {
         setRunning(false)
         setDone(true)
         if (soundOnRef.current) playBowl()
+        stopBed()
         haptic([90, 40, 90])
       } else {
         setElapsedMs(el)
@@ -227,6 +228,7 @@ function BreathingTimer() {
   }, [running, sessionMs])
 
   const reset = () => {
+    stopBed()
     setRunning(false)
     setDone(false)
     setPhase(0)
@@ -251,14 +253,17 @@ function BreathingTimer() {
   const toggleSound = () => {
     const next = !soundOn
     setSoundOn(next)
-    if (next) playBed(bed)
-    else stopBed()
+    // Only affect playback mid-session; otherwise the bed waits for Begin.
+    if (running) {
+      if (next) playBed(bed)
+      else stopBed()
+    }
   }
 
   const selectBed = (key: BedKey) => {
     setBed(key)
     if (typeof localStorage !== 'undefined') localStorage.setItem('bt-bed', key)
-    if (soundOn) playBed(key)
+    if (running && soundOn) playBed(key)
   }
 
   const cycles = Math.floor(count / phaseCount)
