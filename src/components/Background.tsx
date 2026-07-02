@@ -24,10 +24,11 @@ function Background() {
       aria-hidden
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-night-950"
     >
-      {/* Aurora blobs */}
-      <div className="absolute -top-40 -left-32 h-[42rem] w-[42rem] rounded-full bg-aura-500/25 blur-[120px] animate-aurora" />
-      <div className="absolute top-1/3 -right-40 h-[38rem] w-[38rem] rounded-full bg-dawn-500/20 blur-[130px] animate-aurora-slow" />
-      <div className="absolute -bottom-48 left-1/4 h-[40rem] w-[40rem] rounded-full bg-sky-soft/15 blur-[140px] animate-aurora" />
+      {/* Aurora blobs — GPU-promoted so the heavy blur rasterizes once and only
+          composites as it drifts (critical for Safari performance). */}
+      <div className="absolute -top-40 -left-32 h-[42rem] w-[42rem] transform-gpu rounded-full bg-aura-500/25 blur-[90px] animate-aurora [will-change:transform]" />
+      <div className="absolute top-1/3 -right-40 h-[38rem] w-[38rem] transform-gpu rounded-full bg-dawn-500/20 blur-[95px] animate-aurora-slow [will-change:transform]" />
+      <div className="absolute -bottom-48 left-1/4 h-[40rem] w-[40rem] transform-gpu rounded-full bg-sky-soft/15 blur-[100px] animate-aurora [will-change:transform]" />
 
       {/* Star field */}
       {stars.map((s) => (

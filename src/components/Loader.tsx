@@ -64,13 +64,11 @@ function Loader() {
         if (row >= 0) {
           // Repaint the cell just above the head in body-green so the trail is
           // green (it then fades via the wash), and paint a bright head.
+          // (No canvas shadowBlur — it's extremely expensive on Safari.)
           ctx.fillStyle = 'rgba(56,222,136,0.85)'
           ctx.fillText(randChar(), x, (row - 1) * fontSize + fontSize / 2)
-          ctx.fillStyle = 'rgba(225,255,235,0.95)'
-          ctx.shadowBlur = 8
-          ctx.shadowColor = 'rgba(56,222,136,0.9)'
+          ctx.fillStyle = 'rgba(233,255,240,0.98)'
           ctx.fillText(randChar(), x, row * fontSize + fontSize / 2)
-          ctx.shadowBlur = 0
         }
 
         drops[i] += speeds[i]
@@ -118,8 +116,8 @@ function Loader() {
       key="loader"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-0 z-[100] bg-[#050806]"
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className="pointer-events-none fixed inset-0 z-[100] bg-[#050806]"
     >
       <canvas ref={canvasRef} className="absolute inset-0" />
       <motion.p

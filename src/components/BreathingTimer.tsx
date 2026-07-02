@@ -93,6 +93,10 @@ function BreathingTimer() {
   const [count, setCount] = useState(0)
   const [elapsedMs, setElapsedMs] = useState(0)
   const [soundOn, setSoundOn] = useState(false)
+  const [breathTone, setBreathTone] = useState(() => {
+    if (typeof localStorage === 'undefined') return false
+    return localStorage.getItem('bt-tone') === 'on'
+  })
   const [bed, setBed] = useState<BedKey>(() => {
     if (typeof localStorage === 'undefined') return 'waves'
     const saved = localStorage.getItem('bt-bed')
@@ -106,6 +110,8 @@ function BreathingTimer() {
   const bowlElRef = useRef<HTMLAudioElement | null>(null)
   const fadeRef = useRef<number | null>(null)
   const curBedRef = useRef<BedKey | null>(null)
+  const audioCtxRef = useRef<AudioContext | null>(null)
+  const breathToneRef = useRef(false)
 
   const pattern = patterns[patternKey]
   const phaseCount = pattern.phases.length
@@ -114,6 +120,10 @@ function BreathingTimer() {
   useEffect(() => {
     soundOnRef.current = soundOn
   }, [soundOn])
+
+  useEffect(() => {
+    breathToneRef.current = breathTone
+  }, [breathTone])
 
   /* ---- Audio: real nature bed + Tibetan bowl ---- */
   const fadeTo = (a: HTMLAudioElement, target: number, ms: number) => {
@@ -173,10 +183,40 @@ function BreathingTimer() {
     }
   }, [])
 
-  /* ---- Haptics on mobile ---- */
+  /* ---- Haptics (Android only; iOS Safari has no web Vibration API) ---- */
   const haptic = (ms: number | number[]) => {
     if (typeof navigator !== 'undefined' && 'vibrate' in navigator)
       navigator.vibrate(ms)
+  }
+
+  /* ---- Optional soft breath tone (works on every device incl. iPhone) ---- */
+  const ensureCtx = () => {
+    if (!audioCtxRef.current) {
+      const AC =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext })
+          .webkitAudioContext
+      audioCtxRef.current = new AC()
+    }
+    if (audioCtxRef.current.state === 'suspended') void audioCtxRef.current.resume()
+    return audioCtxRef.current
+  }
+
+  const playTone = (freq: number) => {
+    const ctx = audioCtxRef.current
+    if (!ctx) return
+    const now = ctx.currentTime
+    const osc = ctx.createOscillator()
+    osc.type = 'sine'
+    osc.frequency.value = freq
+    const g = ctx.createGain()
+    g.gain.setValueAtTime(0.0001, now)
+    g.gain.exponentialRampToValueAtTime(0.07, now + 0.06)
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.9)
+    osc.connect(g)
+    g.connect(ctx.destination)
+    osc.start(now)
+    osc.stop(now + 0.95)
   }
 
   const scale = useMemo(
@@ -199,8 +239,13 @@ function BreathingTimer() {
     }, pattern.phases[phase] * 1000)
 
     const l = phaseLabel(phaseCount, phase)
-    if (l === 'Breathe in') haptic(70)
-    else if (l === 'Breathe out') haptic(35)
+    if (l === 'Breathe in') {
+      haptic(90)
+      if (breathToneRef.current) playTone(528)
+    } else if (l === 'Breathe out') {
+      haptic(45)
+      if (breathToneRef.current) playTone(396)
+    }
 
     return () => {
       if (timer.current) window.clearTimeout(timer.current)
@@ -248,6 +293,7 @@ function BreathingTimer() {
     startRef.current = performance.now()
     setRunning(true)
     if (soundOnRef.current) playBed(bed) // ensure the bed is going
+    if (breathToneRef.current) ensureCtx() // unlock audio for tone cues
   }
 
   const toggleSound = () => {
@@ -264,6 +310,14 @@ function BreathingTimer() {
     setBed(key)
     if (typeof localStorage !== 'undefined') localStorage.setItem('bt-bed', key)
     if (running && soundOn) playBed(key)
+  }
+
+  const toggleTone = () => {
+    const next = !breathTone
+    setBreathTone(next)
+    if (typeof localStorage !== 'undefined')
+      localStorage.setItem('bt-tone', next ? 'on' : 'off')
+    if (next) ensureCtx()
   }
 
   const cycles = Math.floor(count / phaseCount)
@@ -433,39 +487,64 @@ function BreathingTimer() {
         </button>
       </div>
 
-      {/* Ambient bed selector — appears when sound is on */}
-      {soundOn && (
-        <div className="flex items-center gap-2">
-          {(Object.keys(beds) as BedKey[]).map((key) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => selectBed(key)}
-              aria-label={beds[key].label}
-              aria-pressed={bed === key}
-              className={`flex w-16 flex-col items-center gap-1 rounded-xl border px-2 py-2 transition-colors ${
-                bed === key
-                  ? 'border-aura-400/60 bg-aura-500/15 text-mist-100'
-                  : 'border-white/10 text-mist-500 hover:text-mist-100'
-              }`}
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-5 w-5"
+      {/* Sound area */}
+      {soundOn ? (
+        <div className="flex flex-col items-center gap-3">
+          <p className="text-xs tracking-[0.2em] text-mist-500 uppercase">
+            Choose an ambient sound
+          </p>
+          <div className="flex items-center gap-2">
+            {(Object.keys(beds) as BedKey[]).map((key) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => selectBed(key)}
+                aria-label={beds[key].label}
+                aria-pressed={bed === key}
+                className={`flex w-16 flex-col items-center gap-1 rounded-xl border px-2 py-2 transition-colors ${
+                  bed === key
+                    ? 'border-aura-400/60 bg-aura-500/15 text-mist-100'
+                    : 'border-white/10 text-mist-500 hover:text-mist-100'
+                }`}
               >
-                {bedIcons[key]}
-              </svg>
-              <span className="text-[10px] tracking-wide">
-                {beds[key].label}
-              </span>
-            </button>
-          ))}
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="h-5 w-5"
+                >
+                  {bedIcons[key]}
+                </svg>
+                <span className="text-[10px] tracking-wide">
+                  {beds[key].label}
+                </span>
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={toggleTone}
+            aria-pressed={breathTone}
+            className={`rounded-full border px-4 py-1.5 text-xs tracking-wide transition-colors ${
+              breathTone
+                ? 'border-aura-400/60 bg-aura-500/15 text-mist-100'
+                : 'border-white/10 text-mist-500 hover:text-mist-100'
+            }`}
+          >
+            Breath tone {breathTone ? 'on' : 'off'}
+          </button>
         </div>
+      ) : (
+        <button
+          type="button"
+          onClick={toggleSound}
+          className="text-xs tracking-wide text-mist-500 transition-colors hover:text-mist-100"
+        >
+          ♪ Tap for nature meditation sounds
+        </button>
       )}
 
       {/* Status line */}

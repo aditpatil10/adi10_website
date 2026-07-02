@@ -39,13 +39,13 @@
 
 @keyframes aurora {
   0% {
-    transform: translate3d(-8%, -4%, 0) rotate(0deg) scale(1.1);
+    transform: translate3d(-6%, -3%, 0);
   }
   50% {
-    transform: translate3d(6%, 8%, 0) rotate(8deg) scale(1.25);
+    transform: translate3d(5%, 6%, 0);
   }
   100% {
-    transform: translate3d(-4%, 4%, 0) rotate(-6deg) scale(1.15);
+    transform: translate3d(-3%, 3%, 0);
   }
 }
 
