@@ -93,10 +93,6 @@ function BreathingTimer() {
   const [count, setCount] = useState(0)
   const [elapsedMs, setElapsedMs] = useState(0)
   const [soundOn, setSoundOn] = useState(false)
-  const [breathTone, setBreathTone] = useState(() => {
-    if (typeof localStorage === 'undefined') return false
-    return localStorage.getItem('bt-tone') === 'on'
-  })
   const [bed, setBed] = useState<BedKey>(() => {
     if (typeof localStorage === 'undefined') return 'waves'
     const saved = localStorage.getItem('bt-bed')
@@ -110,8 +106,6 @@ function BreathingTimer() {
   const bowlElRef = useRef<HTMLAudioElement | null>(null)
   const fadeRef = useRef<number | null>(null)
   const curBedRef = useRef<BedKey | null>(null)
-  const audioCtxRef = useRef<AudioContext | null>(null)
-  const breathToneRef = useRef(false)
 
   const pattern = patterns[patternKey]
   const phaseCount = pattern.phases.length
@@ -120,10 +114,6 @@ function BreathingTimer() {
   useEffect(() => {
     soundOnRef.current = soundOn
   }, [soundOn])
-
-  useEffect(() => {
-    breathToneRef.current = breathTone
-  }, [breathTone])
 
   /* ---- Audio: real nature bed + Tibetan bowl ---- */
   const fadeTo = (a: HTMLAudioElement, target: number, ms: number) => {
@@ -189,36 +179,6 @@ function BreathingTimer() {
       navigator.vibrate(ms)
   }
 
-  /* ---- Optional soft breath tone (works on every device incl. iPhone) ---- */
-  const ensureCtx = () => {
-    if (!audioCtxRef.current) {
-      const AC =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext
-      audioCtxRef.current = new AC()
-    }
-    if (audioCtxRef.current.state === 'suspended') void audioCtxRef.current.resume()
-    return audioCtxRef.current
-  }
-
-  const playTone = (freq: number) => {
-    const ctx = audioCtxRef.current
-    if (!ctx) return
-    const now = ctx.currentTime
-    const osc = ctx.createOscillator()
-    osc.type = 'sine'
-    osc.frequency.value = freq
-    const g = ctx.createGain()
-    g.gain.setValueAtTime(0.0001, now)
-    g.gain.exponentialRampToValueAtTime(0.07, now + 0.06)
-    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.9)
-    osc.connect(g)
-    g.connect(ctx.destination)
-    osc.start(now)
-    osc.stop(now + 0.95)
-  }
-
   const scale = useMemo(
     () => (running ? phaseScale(phaseCount, phase) : done ? 0.55 : 0.7),
     [running, done, phaseCount, phase],
@@ -239,13 +199,8 @@ function BreathingTimer() {
     }, pattern.phases[phase] * 1000)
 
     const l = phaseLabel(phaseCount, phase)
-    if (l === 'Breathe in') {
-      haptic(90)
-      if (breathToneRef.current) playTone(528)
-    } else if (l === 'Breathe out') {
-      haptic(45)
-      if (breathToneRef.current) playTone(396)
-    }
+    if (l === 'Breathe in') haptic(90)
+    else if (l === 'Breathe out') haptic(45)
 
     return () => {
       if (timer.current) window.clearTimeout(timer.current)
@@ -293,7 +248,6 @@ function BreathingTimer() {
     startRef.current = performance.now()
     setRunning(true)
     if (soundOnRef.current) playBed(bed) // ensure the bed is going
-    if (breathToneRef.current) ensureCtx() // unlock audio for tone cues
   }
 
   const toggleSound = () => {
@@ -310,14 +264,6 @@ function BreathingTimer() {
     setBed(key)
     if (typeof localStorage !== 'undefined') localStorage.setItem('bt-bed', key)
     if (running && soundOn) playBed(key)
-  }
-
-  const toggleTone = () => {
-    const next = !breathTone
-    setBreathTone(next)
-    if (typeof localStorage !== 'undefined')
-      localStorage.setItem('bt-tone', next ? 'on' : 'off')
-    if (next) ensureCtx()
   }
 
   const cycles = Math.floor(count / phaseCount)
@@ -524,18 +470,6 @@ function BreathingTimer() {
               </button>
             ))}
           </div>
-          <button
-            type="button"
-            onClick={toggleTone}
-            aria-pressed={breathTone}
-            className={`rounded-full border px-4 py-1.5 text-xs tracking-wide transition-colors ${
-              breathTone
-                ? 'border-aura-400/60 bg-aura-500/15 text-mist-100'
-                : 'border-white/10 text-mist-500 hover:text-mist-100'
-            }`}
-          >
-            Breath tone {breathTone ? 'on' : 'off'}
-          </button>
         </div>
       ) : (
         <button
