@@ -365,13 +365,15 @@ function BreathingTimer() {
 
       {/* Controls */}
       <div className="flex items-center gap-3">
-        <button
-          type="button"
-          onClick={toggle}
-          className="rounded-full border border-white/15 bg-white/5 px-8 py-2.5 text-sm tracking-wide text-mist-100 backdrop-blur transition-all hover:border-aura-400/60 hover:bg-aura-500/10"
-        >
-          {running ? 'Stop' : done ? 'Sit again' : 'Begin'}
-        </button>
+        {running && (
+          <button
+            type="button"
+            onClick={toggle}
+            className="rounded-full border border-white/15 bg-white/5 px-8 py-2.5 text-sm tracking-wide text-mist-100 backdrop-blur transition-all hover:border-aura-400/60 hover:bg-aura-500/10"
+          >
+            Stop
+          </button>
+        )}
 
         <button
           type="button"
