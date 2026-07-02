@@ -300,8 +300,20 @@ function BreathingTimer() {
         ))}
       </div>
 
-      {/* The breathing orb + progress ring */}
-      <div className="relative flex h-72 w-72 items-center justify-center">
+      {/* The breathing orb + progress ring (click the orb to start/stop) */}
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={toggle}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            toggle()
+          }
+        }}
+        aria-label={running ? 'Stop session' : 'Start session'}
+        className="relative flex h-72 w-72 cursor-pointer items-center justify-center rounded-full select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-aura-400/60"
+      >
         {/* Progress ring */}
         <svg
           viewBox="0 0 288 288"
