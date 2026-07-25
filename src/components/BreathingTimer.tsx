@@ -4,6 +4,12 @@ import wavesUrl from '../assets/audio/waves.mp3'
 import rainUrl from '../assets/audio/rain.mp3'
 import riverUrl from '../assets/audio/river.mp3'
 import bowlUrl from '../assets/audio/bowl.mp3'
+import {
+  loadStats,
+  recordSession,
+  effectiveStreak,
+  type PracticeStats,
+} from '../lib/practiceStats'
 
 /* Breathing patterns: phase durations in seconds. */
 const patterns = {
@@ -93,6 +99,7 @@ function BreathingTimer() {
   const [count, setCount] = useState(0)
   const [elapsedMs, setElapsedMs] = useState(0)
   const [soundOn, setSoundOn] = useState(false)
+  const [stats, setStats] = useState<PracticeStats>(() => loadStats())
   const [bed, setBed] = useState<BedKey>(() => {
     if (typeof localStorage === 'undefined') return 'waves'
     const saved = localStorage.getItem('bt-bed')
@@ -217,6 +224,7 @@ function BreathingTimer() {
         setElapsedMs(sessionMs)
         setRunning(false)
         setDone(true)
+        setStats(recordSession(minutes))
         if (soundOnRef.current) playBowl()
         stopBed()
         haptic([90, 40, 90])
@@ -269,6 +277,7 @@ function BreathingTimer() {
   const cycles = Math.floor(count / phaseCount)
   const progress = done ? 1 : Math.min(1, elapsedMs / sessionMs)
   const remaining = fmt(sessionMs - elapsedMs)
+  const streak = effectiveStreak(stats)
 
   return (
     <div className="flex flex-col items-center gap-7">
@@ -489,6 +498,58 @@ function BreathingTimer() {
             ? `Session complete · ${minutes} min, ${cycles} ${cycles === 1 ? 'cycle' : 'cycles'}`
             : ' '}
       </p>
+
+      {/* Practice history */}
+      {stats.totalSessions > 0 && (
+        <div className="flex flex-col items-center gap-3 border-t border-white/8 pt-6">
+          <div className="flex items-center gap-6 sm:gap-8">
+            <div className="flex flex-col items-center">
+              <div className="flex items-center gap-1.5 text-dawn-300">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="h-5 w-5"
+                  aria-hidden
+                >
+                  <path d="M12 2c1 3-1.5 4.5-1.5 7 0 1.4 1.1 2.5 2.5 2.5S15.5 10.4 15 9c2 1.3 3 3.4 3 5.5a6 6 0 1 1-12 0c0-3.2 2.4-5 3.5-7.2C10.6 4.9 11.4 3.4 12 2z" />
+                </svg>
+                <span className="font-display text-2xl leading-none text-mist-100">
+                  {streak}
+                </span>
+              </div>
+              <span className="mt-1 text-[10px] tracking-[0.2em] text-mist-500 uppercase">
+                {streak === 1 ? 'day' : 'day streak'}
+              </span>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <span className="font-display text-2xl leading-none text-mist-100">
+                {stats.totalMinutes}
+              </span>
+              <span className="mt-1 text-[10px] tracking-[0.2em] text-mist-500 uppercase">
+                min total
+              </span>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <span className="font-display text-2xl leading-none text-mist-100">
+                {stats.totalSessions}
+              </span>
+              <span className="mt-1 text-[10px] tracking-[0.2em] text-mist-500 uppercase">
+                {stats.totalSessions === 1 ? 'session' : 'sessions'}
+              </span>
+            </div>
+          </div>
+
+          <p className="text-xs text-mist-500">
+            {streak === 0
+              ? 'Sit today to begin a new streak.'
+              : stats.best > streak
+                ? `Best streak: ${stats.best} days`
+                : 'Your best streak yet — keep it going.'}
+          </p>
+        </div>
+      )}
     </div>
   )
 }
