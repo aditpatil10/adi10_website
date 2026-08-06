@@ -434,9 +434,6 @@ function BreathingTimer() {
 
       {/* Session length selector */}
       <div className="flex items-center gap-2">
-        <span className="mr-1 text-xs tracking-wide text-mist-500">
-          Session
-        </span>
         {durations.map((m) => (
           <button
             key={m}
@@ -598,8 +595,7 @@ function BreathingTimer() {
         )}
 
         <p className="max-w-xs text-center text-[11px] leading-relaxed text-mist-500">
-          Soft bells guide each breath in, hold, and out — for practising with
-          eyes closed.
+          Soft bells guide each breath in, hold, and out.
         </p>
       </div>
 

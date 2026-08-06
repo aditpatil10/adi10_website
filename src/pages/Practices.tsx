@@ -1,6 +1,7 @@
 import PageTransition from '../components/PageTransition'
 import Reveal from '../components/Reveal'
 import BreathingTimer from '../components/BreathingTimer'
+import QuoteCard from '../components/QuoteCard'
 
 const resources = [
   {
@@ -49,29 +50,10 @@ function Practices() {
         </section>
       </Reveal>
 
-      {/* Why the breath — James Nestor */}
+      {/* Voices on breath & consciousness — rotating quotes */}
       <Reveal>
         <section className="mx-auto max-w-3xl px-6 pb-24">
-          <figure className="rounded-3xl border border-white/8 bg-night-800 px-7 py-8 backdrop-blur-sm">
-            <blockquote className="font-display text-xl leading-relaxed font-light text-mist-100 italic sm:text-2xl">
-              “No matter what we eat, how much we exercise, how skinny or young
-              or wise we are, none of it matters unless we&rsquo;re breathing
-              correctly.”
-            </blockquote>
-            <figcaption className="mt-4 text-sm tracking-wide text-aura-300">
-              James Nestor, <span className="italic">Breath</span>
-            </figcaption>
-            <p className="mt-6 text-sm leading-relaxed text-mist-300">
-              Breath is the one part of the autonomic nervous system we can
-              consciously take hold of. Every other lever — heart rate, blood
-              pressure, the tide of stress hormones — runs on autopilot, but the
-              breath answers to us directly. Slow it down and the body follows:
-              the heart settles, the “fight or flight” response eases, and the
-              mind grows quiet. That&rsquo;s why a few deliberate minutes here
-              can shift your whole state — you&rsquo;re not just relaxing, you&rsquo;re
-              dialing the nervous system by hand.
-            </p>
-          </figure>
+          <QuoteCard />
         </section>
       </Reveal>
 
